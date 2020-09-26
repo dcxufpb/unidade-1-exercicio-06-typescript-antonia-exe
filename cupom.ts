@@ -13,9 +13,76 @@ let dados = {
   inscricao_estadual: "244.898.500.113"
 };
 
+function isEmpty(str: string): boolean {
+  let spaceCount = str.length - str.replace(" ", "").length;
+  return str == null || spaceCount == str.length;
+}
+
 function dados_loja() {
-  // Implemente aqui
-  return "";
+  if (dados.logradouro == "") {
+    throw new Error(`O campo logradouro do endereço é obrigatório`);
+  }
+
+  if (dados.municipio == "") {
+    throw new Error(`O campo município do endereço é obrigatório`);
+  }
+
+  if (dados.estado == "") {
+    throw new Error(`O campo estado do endereço é obrigatório`);
+  }
+
+  if (dados.cnpj == "") {
+    throw new Error(`O campo CNPJ da loja é obrigatório`);
+  }
+
+  if (dados.inscricao_estadual == "") {
+    throw new Error(`O campo inscrição estadual da loja é obrigatório`);
+  }
+
+  var numero1 : string = dados.numero + "";
+	if(dados.numero == 0){
+		numero1 = "s/n";
+  }
+
+  var linha2 = `${dados.logradouro}, ${numero1}`;
+  if (! isEmpty(dados.complemento)){
+      linha2 += ` ${dados.complemento}`;
+  }
+  
+  var linha3 = "";
+  if (! isEmpty(dados.bairro)){
+    linha3 += `${dados.bairro} - `;
+  }
+  linha3 += `${dados.municipio} - ${dados.estado}`;
+
+  var linha4 = "";
+  if (! isEmpty(dados.cep)){
+    linha4 = `CEP:${dados.cep}`;
+  }
+  if (! isEmpty(dados.telefone)){
+    if (! isEmpty(linha4)){
+      linha4 += ` `;
+    }
+    linha4 += `Tel ${dados.telefone}`;
+  }
+  if (! isEmpty(linha4)){
+    linha4 += `\n`;
+  }
+
+  var linha5 = "";
+  if (! isEmpty(dados.observacao)){
+    linha5 += `${dados.observacao}`;
+  }
+
+  let output = `${dados.nome_loja}\n`
+  output += `${linha2}\n`
+  output += `${linha3}\n`
+  output += `${linha4}`
+  output += `${linha5}\n`
+  output += `CNPJ: ${dados.cnpj}\n`
+  output += `IE: ${dados.inscricao_estadual}\n`
+
+  return output;
 }
 
 module.exports = {
